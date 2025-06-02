@@ -76,8 +76,7 @@ namespace rocsparse
             7,
             4,
             rocprim::kernel_config<256, 16>,
-            rocprim::WarpSortConfig<8, 8, 256, 5, 16, 16, 256>,
-            1>;
+            rocprim::WarpSortConfig<8, 8, 256, 5, true, 16, 16, 256>>;
 
         size_t size1;
         size_t size2;
@@ -373,8 +372,7 @@ rocsparse_status rocsparse::coosort_by_row_template(rocsparse_handle handle,
             7,
             4,
             rocprim::kernel_config<256, 16>,
-            rocprim::WarpSortConfig<8, 8, 256, 5, 16, 16, 256>,
-            1>;
+            rocprim::WarpSortConfig<8, 8, 256, 5, true, 16, 16, 256>>;
 
         RETURN_IF_HIP_ERROR(rocprim::segmented_radix_sort_pairs<config>(
             nullptr, size, keys2, vals2, nnz, nsegm, work4, work4 + 1, startbit, endbit, stream));
@@ -454,8 +452,7 @@ rocsparse_status rocsparse::coosort_by_row_template(rocsparse_handle handle,
             7,
             4,
             rocprim::kernel_config<256, 16>,
-            rocprim::WarpSortConfig<8, 8, 256, 5, 16, 16, 256>,
-            1>;
+            rocprim::WarpSortConfig<8, 8, 256, 5, true, 16, 16, 256>>;
         RETURN_IF_HIP_ERROR(rocprim::segmented_radix_sort_keys<config>(
             nullptr, size, vals, nnz, nsegm, work4, work4 + 1, startbit, endbit, stream));
 

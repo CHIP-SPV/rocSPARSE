@@ -75,8 +75,7 @@ try
         = rocprim::segmented_radix_sort_config<7,
                                                4,
                                                rocprim::kernel_config<256, 16>,
-                                               rocprim::WarpSortConfig<8, 8, 256, 5, 16, 16, 256>,
-                                               1>;
+                                               rocprim::WarpSortConfig<8, 8, 256, 5, true, 16, 16, 256>>;
 
     // We do not know if sort_pairs or sort_keys will be called, so use the largest buffer between the two
     size_t size1;
@@ -156,8 +155,7 @@ try
         = rocprim::segmented_radix_sort_config<7,
                                                4,
                                                rocprim::kernel_config<256, 16>,
-                                               rocprim::WarpSortConfig<8, 8, 256, 5, 16, 16, 256>,
-                                               1>;
+                                               rocprim::WarpSortConfig<8, 8, 256, 5, true, 16, 16, 256>>;
 
     if(perm != nullptr)
     {
