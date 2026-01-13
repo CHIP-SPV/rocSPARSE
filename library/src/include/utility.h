@@ -24,6 +24,8 @@
 
 #pragma once
 
+#include <algorithm>
+
 #include "control.h"
 #include "handle.h"
 #include "logging.h"
