@@ -28,6 +28,7 @@
 #include "control.h"
 #include "envariables.h"
 #include <map>
+#include <cstring>
 
 #include "debug.h"
 #include "to_string.hpp"

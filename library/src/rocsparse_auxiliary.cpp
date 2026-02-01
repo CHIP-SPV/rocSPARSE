@@ -27,6 +27,7 @@
 #include "utility.h"
 #include <iomanip>
 #include <map>
+#include <cstring>
 
 #include <hip/hip_runtime_api.h>
 
