@@ -22,6 +22,7 @@
  *
  * ************************************************************************ */
 
+#include <cstring>
 #include "rocsparse_enum_name.hpp"
 
 template <typename F, typename... P>

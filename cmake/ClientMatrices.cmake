@@ -100,16 +100,18 @@ else()
   set(rpath_sep ",")
 endif()
 
-if(BUILD_ADDRESS_SANITIZER)
-  execute_process(COMMAND ${CMAKE_CXX_COMPILER} ${CONVERT_SOURCE} -O3 -fsanitize=address -shared-libasan -L${ROCM_PATH}/${CMAKE_INSTALL_LIBDIR} -Wl,--enable-new-dtags,--build-id=sha1,--rpath${rpath_sep}$ENV{ROCM_ASAN_EXE_RPATH} -o ${PROJECT_BINARY_DIR}/mtx2csr.exe
-    RESULT_VARIABLE STATUS)
-else()
-	execute_process(COMMAND ${CMAKE_CXX_COMPILER} ${CONVERT_SOURCE} -O3 -L${ROCM_PATH}/${CMAKE_INSTALL_LIBDIR} -Wl,--enable-new-dtags,--build-id=sha1,--rpath${rpath_sep}$ENV{ROCM_EXE_RPATH} -o ${PROJECT_BINARY_DIR}/mtx2csr.exe
-    RESULT_VARIABLE STATUS)
-endif()
-
-if(STATUS AND NOT STATUS EQUAL 0)
-  message(FATAL_ERROR "mtx2csr.exe failed to build, aborting.")
+if(NOT EXISTS "${PROJECT_BINARY_DIR}/mtx2csr.exe")
+  find_program(GXX_EXECUTABLE NAMES g++ c++ REQUIRED)
+  if(BUILD_ADDRESS_SANITIZER)
+    execute_process(COMMAND ${GXX_EXECUTABLE} ${CONVERT_SOURCE} -O3 -o ${PROJECT_BINARY_DIR}/mtx2csr.exe
+      RESULT_VARIABLE STATUS)
+  else()
+    execute_process(COMMAND ${GXX_EXECUTABLE} ${CONVERT_SOURCE} -O3 -o ${PROJECT_BINARY_DIR}/mtx2csr.exe
+      RESULT_VARIABLE STATUS)
+  endif()
+  if(STATUS AND NOT STATUS EQUAL 0)
+    message(FATAL_ERROR "mtx2csr.exe failed to build, aborting.")
+  endif()
 endif()
 
 list(LENGTH TEST_MATRICES len)
