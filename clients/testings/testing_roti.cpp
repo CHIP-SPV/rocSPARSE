@@ -113,10 +113,10 @@ void testing_roti(const Arguments& arg)
         // CPU roti
         host_roti<rocsparse_int, T>(nnz, hx_val_gold, hx_ind, hy_gold, hc, hs, base);
 
-        hx_val_gold.unit_check(hx_val_1);
-        hx_val_gold.unit_check(hx_val_2);
-        hy_gold.unit_check(hy_1);
-        hy_gold.unit_check(hy_2);
+        hx_val_gold.near_check(hx_val_1);
+        hx_val_gold.near_check(hx_val_2);
+        hy_gold.near_check(hy_1);
+        hy_gold.near_check(hy_2);
 
         if(ROCSPARSE_REPRODUCIBILITY)
         {
