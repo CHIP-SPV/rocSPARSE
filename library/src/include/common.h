@@ -32,6 +32,13 @@
 
 #include "rocsparse_assert.hpp"
 
+#ifdef __HIP_PLATFORM_SPIRV__
+// warpSize is not constexpr on chipStar; it pins kernels using __shared__ memory to this width.
+#define ROCSPARSE_WARP_SIZE CHIP_DEFAULT_WARP_SIZE
+#else
+#define ROCSPARSE_WARP_SIZE warpSize
+#endif
+
 // clang-format off
 
 #ifndef ROCSPARSE_USE_MOVE_DPP
