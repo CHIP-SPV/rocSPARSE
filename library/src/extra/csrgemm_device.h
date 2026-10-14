@@ -1095,7 +1095,7 @@ namespace rocsparse
         __syncthreads();
 
         // Compress hash table, such that valid entries come first
-        __shared__ J scan_offsets[BLOCKSIZE / warpSize + 1];
+        __shared__ J scan_offsets[BLOCKSIZE / ROCSPARSE_WARP_SIZE + 1];
 
         // Offset into hash table
         J hash_offset = 0;

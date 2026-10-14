@@ -79,7 +79,7 @@ namespace rocsparse
     template <rocsparse_int NB, typename T>
     __inline__ __device__ T reduce_block(T val)
     {
-        __shared__ T psums[warpSize];
+        __shared__ T psums[ROCSPARSE_WARP_SIZE];
 
         rocsparse_int wavefront = hipThreadIdx_x / warpSize;
         rocsparse_int wavelet   = hipThreadIdx_x % warpSize;
@@ -88,14 +88,14 @@ namespace rocsparse
             psums[wavelet] = 0;
         __syncthreads();
 
-        val = reduce_wavefront<warpSize>(val); // sum over wavefront
+        val = reduce_wavefront<ROCSPARSE_WARP_SIZE>(val); // sum over wavefront
         if(wavelet == 0)
             psums[wavefront] = val; // store sum for wavefront
 
         __syncthreads(); // Wait for all wavefront reductions
 
         // ensure wavefront was run
-        static constexpr rocsparse_int num_wavefronts = NB / warpSize;
+        static constexpr rocsparse_int num_wavefronts = NB / ROCSPARSE_WARP_SIZE;
         val = (hipThreadIdx_x < num_wavefronts) ? psums[wavelet] : 0;
         if(wavefront == 0)
             val = reduce_wavefront<num_wavefronts>(val); // sum wavefront sums
